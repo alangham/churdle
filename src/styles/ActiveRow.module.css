@@ -1,0 +1,12 @@
+.row {
+  display: flex;
+  gap: 6px;
+}
+
+.hint {
+  margin-top: 8px;
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  letter-spacing: 0.02em;
+  min-height: 1.2em;
+}

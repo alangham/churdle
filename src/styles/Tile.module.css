@@ -1,0 +1,43 @@
+.tile {
+  width: 54px;
+  height: 54px;
+  border: 2px solid var(--tile-empty-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  font-weight: 700;
+  font-family: 'Courier New', Courier, monospace;
+  letter-spacing: 0;
+  user-select: none;
+  transition: background 0.08s, border-color 0.08s;
+  flex-shrink: 0;
+}
+
+.empty {
+  color: transparent;
+}
+
+.absent {
+  background: var(--tile-absent-bg);
+  border-color: var(--tile-absent-bg);
+  color: var(--tile-text);
+  cursor: pointer;
+}
+.absent:hover { background: var(--tile-absent-hover); }
+
+.present {
+  background: var(--present);
+  border-color: var(--present);
+  color: var(--tile-text);
+  cursor: pointer;
+}
+.present:hover { background: var(--present-hover); }
+
+.correct {
+  background: var(--correct);
+  border-color: var(--correct);
+  color: var(--tile-text);
+  cursor: pointer;
+}
+.correct:hover { background: var(--correct-hover); }

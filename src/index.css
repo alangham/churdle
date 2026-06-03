@@ -1,0 +1,84 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ── Theme palettes ──────────────────────────────────────────────────────────
+   Dark is the default (also applied when data-theme is absent). The Wordle
+   feedback colors (correct/present) are tuned per theme for contrast against
+   their respective backgrounds. An inline script in index.html sets
+   data-theme on <html> before render to avoid a flash of the wrong theme. */
+:root,
+:root[data-theme='dark'] {
+  /* Theme-independent: resolves to Consolas/Cascadia on Windows, SF Mono on
+     macOS — all render crisply at small sizes, unlike bold Courier New. */
+  --font-mono: ui-monospace, 'Cascadia Mono', 'Consolas', 'Segoe UI Mono', 'Liberation Mono', monospace;
+  --bg: #121213;
+  --bg-elevated: #1f1f21;
+  --text: #ffffff;
+  --text-secondary: #818384;
+  --text-tertiary: #565758;
+  --border: #3a3a3c;
+  --border-subtle: #1a1a1b;
+  --border-strong: #565758;
+  --tile-empty-border: #3a3a3c;
+  --tile-absent-bg: #3a3a3c;
+  --tile-absent-hover: #484848;
+  --tile-text: #ffffff;
+  --correct: #538d4e;
+  --correct-hover: #5fa059;
+  --correct-text: #6aad63;
+  --correct-soft: rgba(83, 141, 78, 0.12);
+  --present: #b59f3b;
+  --present-hover: #c9b145;
+  --word-text: #d7dadc;
+  --toast-bg: #ffffff;
+  --toast-text: #121213;
+}
+
+:root[data-theme='light'] {
+  --bg: #ffffff;
+  --bg-elevated: #eef0f2;
+  --text: #1a1a1b;
+  --text-secondary: #565a5c;     /* ~6.9:1 on white — notes, stats, labels */
+  --text-tertiary: #727578;      /* ~4.4:1 on white — explanations, hints */
+  --border: #c4c8cd;             /* visible panel/tile borders */
+  --border-subtle: #e3e5e8;      /* row separators */
+  --border-strong: #92989c;      /* button outlines */
+  --tile-empty-border: #c4c8cd;
+  --tile-absent-bg: #787c7e;
+  --tile-absent-hover: #6a6e70;
+  --tile-text: #ffffff;
+  --correct: #6aaa64;
+  --correct-hover: #5d975a;
+  --correct-text: #3d7a3a;       /* darker green text for readability on white */
+  --correct-soft: rgba(106, 170, 100, 0.18);
+  --present: #c9b458;
+  --present-hover: #b9a44d;
+  --word-text: #1a1a1b;
+  --toast-bg: #1a1a1b;
+  --toast-text: #ffffff;
+}
+
+html {
+  overflow-x: hidden;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+#root {
+  width: 100%;
+  height: 100vh; /* definite height so nested flex lists can scroll internally */
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}

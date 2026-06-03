@@ -1,0 +1,179 @@
+.app {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  overflow-x: hidden;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 24px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.title {
+  font-size: 1.7rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.resetBtn {
+  background: transparent;
+  border: 1px solid var(--border-strong);
+  color: var(--text-secondary);
+  height: 32px;
+  padding: 0 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  transition: border-color 0.1s, color 0.1s;
+}
+.resetBtn:hover {
+  border-color: var(--text);
+  color: var(--text);
+}
+
+.themeBtn {
+  background: transparent;
+  border: 1px solid var(--border-strong);
+  color: var(--text-secondary);
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.1s, color 0.1s;
+}
+.themeBtn:hover {
+  border-color: var(--text);
+  color: var(--text);
+}
+
+/* SVG icon rendered as a mask so it inherits the button's (themeable) color. */
+.themeIcon {
+  width: 18px;
+  height: 18px;
+  background-color: currentColor;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+
+.main {
+  flex: 1;
+  min-height: 0; /* allow children to shrink so inner lists scroll, not the page */
+  display: flex;
+  overflow: hidden;
+}
+
+.leftPanel {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 340px;
+  flex-shrink: 0;
+  overflow-y: auto;
+}
+
+.sectionRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.sectionLabel {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.undoBtn {
+  background: transparent;
+  border: none;
+  color: var(--text-tertiary);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  padding: 2px 0;
+  transition: color 0.1s;
+}
+.undoBtn:hover { color: var(--present); }
+
+.rightPanel {
+  flex: 1;
+  min-width: 0;
+  min-height: 0; /* allow the candidate list to become the scroll container */
+  border-left: 1px solid var(--border);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.submitBtn {
+  background: var(--correct);
+  color: var(--tile-text);
+  border: none;
+  padding: 12px 20px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+  transition: background 0.1s;
+}
+.submitBtn:hover:not(:disabled) { background: var(--correct-hover); }
+.submitBtn:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+@media (max-width: 640px) {
+  .main {
+    flex-direction: column;
+    overflow: auto;
+  }
+  .leftPanel {
+    width: 100%;
+    border-bottom: 1px solid var(--border);
+  }
+  .rightPanel {
+    border-left: none;
+    min-height: 50vh;
+  }
+}

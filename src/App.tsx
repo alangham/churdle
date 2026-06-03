@@ -19,17 +19,27 @@ function getInitialTheme(): Theme {
   return document.documentElement.dataset.theme === 'light' ? 'light' : 'dark';
 }
 
+// Whether to offer the on-screen keyboard. True on touch devices, and also on any
+// mobile-sized viewport — every phone/device-emulator is narrow, and touch-only
+// detection (pointer: coarse / maxTouchPoints) is unreliable across browsers'
+// device-emulation modes. A normal wide desktop (no touch) gets neither signal,
+// so nothing is shown there.
+function detectKeyboardUI(): boolean {
+  return (
+    window.matchMedia('(pointer: coarse)').matches ||
+    navigator.maxTouchPoints > 0 ||
+    'ontouchstart' in window ||
+    window.innerWidth <= 640
+  );
+}
+
 export default function App() {
   const { state, dispatch } = useSolver();
   const [theme, setTheme] = useState<Theme>(getInitialTheme);
-  // The on-screen keyboard only exists on touch devices (phones/tablets, or a
-  // device emulator). A desktop browser has a physical keyboard, so it's neither
-  // shown nor offered there. Detected by touch capability, not viewport width — a
-  // narrow desktop window is still a mouse-driven desktop.
-  const [isTouch] = useState(
-    () => window.matchMedia('(pointer: coarse)').matches || navigator.maxTouchPoints > 0,
-  );
-  // On touch devices the keyboard starts hidden and is revealed via the toggle.
+  // Whether the on-screen keyboard is offered (touch device or mobile-sized
+  // viewport). Reactive so toggling device-emulation / resizing updates it live.
+  const [keyboardAvailable, setKeyboardAvailable] = useState(detectKeyboardUI);
+  // When offered, the keyboard starts hidden and is revealed via the toggle.
   const [keyboardOpen, setKeyboardOpen] = useState(false);
 
   // Confirmed correct-position letters from previous guesses (uppercase), used to
@@ -40,6 +50,13 @@ export default function App() {
       if (row.states[i] === 'correct') greenPositions[i] = row.word[i].toUpperCase();
     }
   }
+
+  // Re-evaluate keyboard availability on resize / device-emulation toggle.
+  useEffect(() => {
+    const update = () => setKeyboardAvailable(detectKeyboardUI());
+    window.addEventListener('resize', update);
+    return () => window.removeEventListener('resize', update);
+  }, []);
 
   // Apply theme to <html> and persist the choice.
   useEffect(() => {
@@ -134,7 +151,7 @@ export default function App() {
                 Submit
               </button>
 
-              {isTouch && (
+              {keyboardAvailable && (
                 <>
                   <button
                     className={styles.keyboardToggle}

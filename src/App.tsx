@@ -4,9 +4,12 @@ import { useSolver } from './hooks/useSolver';
 import GuessHistory from './components/GuessHistory';
 import ActiveRow from './components/ActiveRow';
 import CandidateList from './components/CandidateList';
+import Keyboard from './components/Keyboard';
 import Toast from './components/Toast';
 import sunIcon from './assets/sun.svg';
 import moonIcon from './assets/moon.svg';
+import keyboardIcon from './assets/keyboard.svg';
+import keyboardOffIcon from './assets/keyboard-off.svg';
 
 type Theme = 'dark' | 'light';
 
@@ -19,6 +22,24 @@ function getInitialTheme(): Theme {
 export default function App() {
   const { state, dispatch } = useSolver();
   const [theme, setTheme] = useState<Theme>(getInitialTheme);
+  // The on-screen keyboard only exists on touch devices (phones/tablets, or a
+  // device emulator). A desktop browser has a physical keyboard, so it's neither
+  // shown nor offered there. Detected by touch capability, not viewport width — a
+  // narrow desktop window is still a mouse-driven desktop.
+  const [isTouch] = useState(
+    () => window.matchMedia('(pointer: coarse)').matches || navigator.maxTouchPoints > 0,
+  );
+  // On touch devices the keyboard starts hidden and is revealed via the toggle.
+  const [keyboardOpen, setKeyboardOpen] = useState(false);
+
+  // Confirmed correct-position letters from previous guesses (uppercase), used to
+  // lock those tiles green in the next-guess row.
+  const greenPositions: Record<number, string> = {};
+  for (const row of state.history) {
+    for (let i = 0; i < 5; i++) {
+      if (row.states[i] === 'correct') greenPositions[i] = row.word[i].toUpperCase();
+    }
+  }
 
   // Apply theme to <html> and persist the choice.
   useEffect(() => {
@@ -89,7 +110,7 @@ export default function App() {
             </div>
           )}
 
-          {isSolved ? (
+{isSolved ? (
             <div className={styles.solvedBanner}>Solved 🎉</div>
           ) : (
             <>
@@ -100,6 +121,7 @@ export default function App() {
                 <ActiveRow
                   word={state.activeWord}
                   tileStates={state.activeTileStates}
+                  greenPositions={greenPositions}
                   onCycleTile={index => dispatch({ type: 'CYCLE_TILE', index })}
                 />
               </div>
@@ -111,6 +133,36 @@ export default function App() {
               >
                 Submit
               </button>
+
+              {isTouch && (
+                <>
+                  <button
+                    className={styles.keyboardToggle}
+                    onClick={() => setKeyboardOpen(o => !o)}
+                    aria-pressed={keyboardOpen}
+                  >
+                    <span
+                      className={styles.keyboardToggleIcon}
+                      style={{
+                        WebkitMaskImage: `url("${keyboardOpen ? keyboardOffIcon : keyboardIcon}")`,
+                        maskImage: `url("${keyboardOpen ? keyboardOffIcon : keyboardIcon}")`,
+                      }}
+                    />
+                    {keyboardOpen ? 'Hide keyboard' : 'Show keyboard'}
+                  </button>
+
+                  {keyboardOpen && (
+                    <div className={styles.keyboardWrap}>
+                      <Keyboard
+                        onKey={letter => dispatch({ type: 'TYPE', letter })}
+                        onEnter={() => dispatch({ type: 'SUBMIT' })}
+                        onDelete={() => dispatch({ type: 'DELETE' })}
+                      />
+                    </div>
+                  )}
+                </>
+              )}
+
             </>
           )}
         </section>

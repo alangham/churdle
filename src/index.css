@@ -35,6 +35,9 @@
   --word-text: #d7dadc;
   --toast-bg: #ffffff;
   --toast-text: #121213;
+  --key-bg: #818384;
+  --key-hover: #9a9b9c;
+  --key-text: #ffffff;
 }
 
 :root[data-theme='light'] {
@@ -59,6 +62,9 @@
   --word-text: #1a1a1b;
   --toast-bg: #1a1a1b;
   --toast-text: #ffffff;
+  --key-bg: #d3d6da;
+  --key-hover: #bcc0c5;
+  --key-text: #1a1a1b;
 }
 
 html {

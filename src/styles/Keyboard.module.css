@@ -1,0 +1,37 @@
+.keyboard {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  user-select: none;
+  touch-action: manipulation; /* avoid double-tap zoom delay on mobile */
+}
+
+.row {
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+}
+
+.key {
+  flex: 1;
+  min-width: 0;
+  height: 50px;
+  border: none;
+  border-radius: 4px;
+  background: var(--key-bg);
+  color: var(--key-text);
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.08s;
+}
+.key:hover { background: var(--key-hover); }
+.key:active { background: var(--key-hover); }
+
+.wide {
+  flex: 1.5;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+}

@@ -25,7 +25,7 @@ npm run lint     # ESLint
 
 ## How to use it
 
-1. **Enter a guess.** Type a five-letter word, or click one of the suggestions on the right to drop it into the **Next guess** row.
+1. **Enter a guess.** Type a five-letter word on your physical keyboard or the on-screen keyboard, or click one of the suggestions on the right to drop it into the **Next guess** row.
 2. **Mark the feedback.** Click each tile to cycle its color to match what the puzzle showed you:
    **Gray → Yellow → Green → Gray** (click again to keep cycling).
    - **Green** — right letter, right position
@@ -36,11 +36,17 @@ npm run lint     # ESLint
 
 You can always type a word manually instead of picking from the list — the input never restricts you to the suggestions.
 
-### Keyboard
+### On-screen & physical keyboard
+
+On **touch devices** (phones/tablets), where there's no physical keyboard, an on-screen QWERTY keyboard is available. It starts hidden to save space; tap the **Show keyboard** button (below Submit) to reveal it and **Hide keyboard** to dismiss it — independent of Reset. **Enter** submits and **⌫** deletes.
+
+On a **desktop** browser the on-screen keyboard isn't shown at all — you just use your physical keyboard:
 
 - **Letter keys** — type into the next-guess row
 - **Backspace** — delete the last letter
 - **Enter** — submit the guess
+
+> **Confirmed greens are locked.** If an earlier guess established a letter in a correct (green) position, that tile is auto-marked green in your next guess and can't be tapped to a different color — it's already known to be right.
 
 ---
 

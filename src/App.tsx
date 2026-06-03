@@ -37,6 +37,10 @@ export default function App() {
     return () => clearTimeout(t);
   }, [state.toast, dispatch]);
 
+  const isSolved =
+    state.history.length > 0 &&
+    state.history[state.history.length - 1].states.every(s => s === 'correct');
+
   return (
     <div className={styles.app}>
       <header className={styles.header}>
@@ -85,24 +89,30 @@ export default function App() {
             </div>
           )}
 
-          <div>
-            <div className={styles.sectionLabel}>
-              {state.history.length === 0 ? 'Enter your first guess' : 'Next guess'}
-            </div>
-            <ActiveRow
-              word={state.activeWord}
-              tileStates={state.activeTileStates}
-              onCycleTile={index => dispatch({ type: 'CYCLE_TILE', index })}
-            />
-          </div>
+          {isSolved ? (
+            <div className={styles.solvedBanner}>Solved 🎉</div>
+          ) : (
+            <>
+              <div>
+                <div className={styles.sectionLabel}>
+                  {state.history.length === 0 ? 'Enter your first guess' : 'Next guess'}
+                </div>
+                <ActiveRow
+                  word={state.activeWord}
+                  tileStates={state.activeTileStates}
+                  onCycleTile={index => dispatch({ type: 'CYCLE_TILE', index })}
+                />
+              </div>
 
-          <button
-            className={styles.submitBtn}
-            disabled={state.activeWord.length !== 5}
-            onClick={() => dispatch({ type: 'SUBMIT' })}
-          >
-            Submit
-          </button>
+              <button
+                className={styles.submitBtn}
+                disabled={state.activeWord.length !== 5}
+                onClick={() => dispatch({ type: 'SUBMIT' })}
+              >
+                Submit
+              </button>
+            </>
+          )}
         </section>
 
         <section className={styles.rightPanel}>

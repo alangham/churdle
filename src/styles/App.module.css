@@ -163,6 +163,15 @@
   cursor: default;
 }
 
+.solvedBanner {
+  font-size: 1.4rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--correct);
+  padding: 12px 0;
+}
+
 @media (max-width: 640px) {
   .main {
     flex-direction: column;

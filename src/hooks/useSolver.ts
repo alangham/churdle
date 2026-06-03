@@ -25,9 +25,6 @@ const STARTER_WORDS = [...RANKED_STARTERS, ...PINNED_STARTERS];
 // Include starters explicitly — some (e.g. SALET) may not appear in the ENABLE list.
 const VALID_GUESSES = new Set([...WORD_LIST, ...STARTER_WORDS]);
 
-// Pre-built set for O(1) answer membership tests during ranking.
-const ANSWER_SET = new Set(ANSWER_LIST);
-
 const BLANK_STATES: TileState[] = ['absent', 'absent', 'absent', 'absent', 'absent'];
 
 function initialCandidates(): RankedWord[] {
@@ -133,8 +130,7 @@ function solverReducer(state: SolverState, action: Action): SolverState {
       const ranked = rankCandidates({
         candidates: filtered,
         allGuesses: WORD_LIST,
-        answerSet: ANSWER_SET,
-        mode: state.strategy,
+        mode:state.strategy,
       });
 
       return {
@@ -174,8 +170,7 @@ function solverReducer(state: SolverState, action: Action): SolverState {
       const ranked = rankCandidates({
         candidates: filtered,
         allGuesses: WORD_LIST,
-        answerSet: ANSWER_SET,
-        mode: action.strategy,
+        mode:action.strategy,
       });
       return { ...state, strategy: action.strategy, candidates: ranked };
     }
@@ -193,8 +188,7 @@ function solverReducer(state: SolverState, action: Action): SolverState {
       const ranked = rankCandidates({
         candidates: filtered,
         allGuesses: WORD_LIST,
-        answerSet: ANSWER_SET,
-        mode: state.strategy,
+        mode:state.strategy,
       });
       return { ...state, history: newHistory, candidates: ranked, toast: null };
     }

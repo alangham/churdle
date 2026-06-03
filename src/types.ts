@@ -13,7 +13,8 @@ export interface RankedWord {
   expectedRemaining: number | null;
   worstCase: number | null;
   distinctPatterns: number | null;
-  isAnswer: boolean;          // word is in the filtered answer pool (could be the actual answer)
+  isAnswer: boolean;          // word still satisfies every clue — it could be the answer
+                              // (false for Explore-mode probe words that violate a clue)
   explanation: string | null; // brief reason for ranking
 }
 

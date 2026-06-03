@@ -190,40 +190,34 @@ function patternStats(guess: Uint8Array, answers: EncodedAnswer[]): PatternStats
 // EXPLANATION BUILDER
 // ─────────────────────────────────────────────────────────────────────────────
 
+// `isCandidate` means the word satisfies every clue so far — i.e. it could actually
+// be the answer. In Explore mode most ranked words are NOT candidates: they are pure
+// information probes, and are labelled as such so they are never mistaken for answers.
 function buildExplanation(
   stats: PatternStats,
-  isAnswer: boolean,
+  isCandidate: boolean,
   dupPenalty: number,
   rank: number,
   candidateCount: number,
 ): string {
   const parts: string[] = [];
 
-  if (rank === 0) {
-    parts.push('best split');
-  } else if (stats.expectedRemaining <= 1.5) {
-    parts.push('near-certain solve');
+  if (rank === 0) parts.push('best split');
+
+  if (isCandidate) {
+    parts.push(candidateCount <= 10 ? 'possible answer' : 'in answer pool');
+    if (stats.worstCase === 1) parts.push('guarantees solve');
+    else if (stats.expectedRemaining <= 1.5) parts.push('near-certain solve');
+    else if (stats.worstCase <= Math.ceil(candidateCount * 0.1)) parts.push('tight worst case');
+  } else {
+    // Probe: violates a clue, so it cannot be the answer — useful only for the
+    // information it reveals about the remaining candidates.
+    parts.push('not a possible answer');
+    if (stats.worstCase === 1) parts.push('isolates the answer');
+    else if (stats.worstCase <= Math.ceil(candidateCount * 0.1)) parts.push('strong probe');
   }
 
-  if (isAnswer && candidateCount <= 10) {
-    parts.push('possible answer');
-  } else if (isAnswer) {
-    parts.push('in answer pool');
-  }
-
-  if (stats.worstCase === 1) {
-    parts.push('guarantees solve');
-  } else if (stats.worstCase <= Math.ceil(candidateCount * 0.1)) {
-    parts.push(`tight worst case`);
-  }
-
-  if (dupPenalty > 0.6) {
-    parts.push('dup-letter risk');
-  }
-
-  if (parts.length === 0) {
-    parts.push(`${stats.distinctPatterns} split patterns`);
-  }
+  if (dupPenalty > 0.6) parts.push('dup-letter risk');
 
   return parts.join(' · ');
 }
@@ -242,23 +236,28 @@ const RANK_THRESHOLD = 500;
 export interface RankConfig {
   candidates: string[];    // remaining valid answers (filter output)
   allGuesses: string[];    // full valid-guess pool (used in explore mode)
-  answerSet: Set<string>;  // fast membership test: is this word a possible answer?
   mode: Strategy;
 }
 
 export function rankCandidates(config: RankConfig): RankedWord[] {
-  const { candidates, allGuesses, answerSet, mode } = config;
+  const { candidates, allGuesses, mode } = config;
 
   if (candidates.length === 0) return [];
 
+  // A word "is an answer" iff it still satisfies every clue — i.e. it is one of the
+  // remaining candidates. (Not merely a member of the global answer dictionary: in
+  // Explore mode most ranked words are probes that violate the clues.)
+  const candidateSet = new Set(candidates);
+
   // Too many candidates to rank usefully — return alphabetical list without scores.
+  // Every listed word is a remaining candidate here, so all are possible answers.
   if (candidates.length > RANK_THRESHOLD) {
     return [...candidates].sort().map(word => ({
       word,
       expectedRemaining: null,
       worstCase: null,
       distinctPatterns: null,
-      isAnswer: answerSet.has(word),
+      isAnswer: true,
       explanation: null,
     }));
   }
@@ -280,7 +279,7 @@ export function rankCandidates(config: RankConfig): RankedWord[] {
 
   const scored = guessPool.map(word => {
     const stats = patternStats(encodeWord(word), encodedAnswers);
-    const isAnswer = answerSet.has(word);
+    const isAnswer = candidateSet.has(word);
     const dupPen = duplicatePenalty(word, freq);
     const posScore = positionalScore(word, freq);
     const ovrScore = overallScore(word, freq);

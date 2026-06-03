@@ -37,9 +37,16 @@ export default function CandidateList({
   const visible = candidates.slice(0, visibleCount);
   const hasMore = visibleCount < candidates.length;
 
+  // In Explore mode the ranked list is guess words (most are probes, not answers),
+  // so the meaningful count is how many entries still satisfy the clues.
+  const exploreRanked = isRanked && strategy === 'explore';
+  const answerCount = exploreRanked ? candidates.filter(c => c.isAnswer).length : candidates.length;
+
   let headerLabel: string;
   if (!isFiltered) {
     headerLabel = 'Suggested starters';
+  } else if (exploreRanked) {
+    headerLabel = `${answerCount.toLocaleString()} possible answer${answerCount !== 1 ? 's' : ''} left`;
   } else {
     headerLabel = `${candidates.length.toLocaleString()} candidate${candidates.length !== 1 ? 's' : ''}`;
   }
@@ -47,7 +54,7 @@ export default function CandidateList({
   let headerNote: string | null = null;
   if (isRanked) {
     headerNote = strategy === 'explore'
-      ? 'explore — all guess words ranked'
+      ? `ranking all ${candidates.length.toLocaleString()} guesses`
       : 'solve — answer words preferred';
   } else if (isFiltered && candidates.length > 0) {
     headerNote = 'too many to rank — refine further';

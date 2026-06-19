@@ -4,9 +4,11 @@
 // filtered to 5-letter entries. Word frequencies come from Peter Norvig's
 // count_1w list (Google Web Trillion Word Corpus, public domain).
 //
-// WORD_LIST  — every valid 5-letter ENABLE word (8636). Used to validate
-//              the user's typed guesses and as the Explore-mode probe pool.
-// ANSWER_LIST — likely answer candidates (4507). Built from WORD_LIST by:
+// WORD_LIST  — every valid 5-letter ENABLE word, plus "emoji" (8637 — "emoji"
+//              postdates ENABLE so it's added manually). Used to validate the
+//              user's typed guesses and as the Explore-mode probe pool.
+// ANSWER_LIST — likely answer candidates (4508; includes the manual "emoji").
+//              Built from WORD_LIST by:
 //   1. requiring the word to appear in the frequency corpus at all (drops ~1,200
 //      zero-frequency Scrabble-only words such as "aahed"/"zoeae" that are never
 //      real answers, while keeping every word with genuine usage — so the solver
@@ -2305,6 +2307,7 @@ export const WORD_LIST: string[] = [
   'emits',
   'emmer',
   'emmet',
+  'emoji',
   'emote',
   'empty',
   'emyde',
@@ -9921,6 +9924,7 @@ export const ANSWER_LIST: string[] = [
   'emery',
   'emmer',
   'emmet',
+  'emoji',
   'emote',
   'empty',
   'enact',

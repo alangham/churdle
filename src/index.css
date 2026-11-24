@@ -4,67 +4,84 @@
   padding: 0;
 }
 
-/* ── Theme palettes ──────────────────────────────────────────────────────────
-   Dark is the default (also applied when data-theme is absent). The Wordle
-   feedback colors (correct/present) are tuned per theme for contrast against
-   their respective backgrounds. An inline script in index.html sets
-   data-theme on <html> before render to avoid a flash of the wrong theme. */
 :root,
 :root[data-theme='dark'] {
-  /* Theme-independent: resolves to Consolas/Cascadia on Windows, SF Mono on
-     macOS — all render crisply at small sizes, unlike bold Courier New. */
-  --font-mono: ui-monospace, 'Cascadia Mono', 'Consolas', 'Segoe UI Mono', 'Liberation Mono', monospace;
-  --bg: #121213;
-  --bg-elevated: #1f1f21;
+  --font-mono: 'SF Mono', ui-monospace, 'Cascadia Mono', 'Consolas', 'Segoe UI Mono', monospace;
+  --bg: #000000;
+  --bg-secondary: #1c1c1e;
+  --bg-tertiary: #2c2c2e;
+  --bg-elevated: rgba(255, 255, 255, 0.06);
+  --bg-glass: rgba(28, 28, 30, 0.72);
   --text: #ffffff;
-  --text-secondary: #818384;
-  --text-tertiary: #565758;
-  --border: #3a3a3c;
-  --border-subtle: #1a1a1b;
-  --border-strong: #565758;
-  --tile-empty-border: #3a3a3c;
-  --tile-absent-bg: #3a3a3c;
-  --tile-absent-hover: #484848;
+  --text-secondary: rgba(235, 235, 245, 0.6);
+  --text-tertiary: rgba(235, 235, 245, 0.3);
+  --border: rgba(255, 255, 255, 0.08);
+  --border-subtle: rgba(255, 255, 255, 0.04);
+  --border-strong: rgba(255, 255, 255, 0.16);
+  --separator: rgba(84, 84, 88, 0.65);
+  --tile-empty-border: rgba(255, 255, 255, 0.12);
+  --tile-absent-bg: rgba(255, 255, 255, 0.12);
+  --tile-absent-hover: rgba(255, 255, 255, 0.18);
   --tile-text: #ffffff;
-  --correct: #538d4e;
-  --correct-hover: #5fa059;
-  --correct-text: #6aad63;
-  --correct-soft: rgba(83, 141, 78, 0.12);
-  --present: #b59f3b;
-  --present-hover: #c9b145;
-  --word-text: #d7dadc;
-  --toast-bg: #ffffff;
-  --toast-text: #121213;
-  --key-bg: #818384;
-  --key-hover: #9a9b9c;
+  --correct: #34c759;
+  --correct-hover: #30d158;
+  --correct-text: #34c759;
+  --correct-soft: rgba(52, 199, 89, 0.12);
+  --present: #ff9f0a;
+  --present-hover: #ffb340;
+  --present-text: #ff9f0a;
+  --word-text: #ffffff;
+  --toast-bg: rgba(44, 44, 46, 0.92);
+  --toast-text: #ffffff;
+  --key-bg: rgba(255, 255, 255, 0.12);
+  --key-hover: rgba(255, 255, 255, 0.2);
   --key-text: #ffffff;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
 }
 
 :root[data-theme='light'] {
-  --bg: #ffffff;
-  --bg-elevated: #eef0f2;
-  --text: #1a1a1b;
-  --text-secondary: #565a5c;     /* ~6.9:1 on white — notes, stats, labels */
-  --text-tertiary: #727578;      /* ~4.4:1 on white — explanations, hints */
-  --border: #c4c8cd;             /* visible panel/tile borders */
-  --border-subtle: #e3e5e8;      /* row separators */
-  --border-strong: #92989c;      /* button outlines */
-  --tile-empty-border: #c4c8cd;
-  --tile-absent-bg: #787c7e;
-  --tile-absent-hover: #6a6e70;
+  --bg: #f2f2f7;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #e5e5ea;
+  --bg-elevated: rgba(0, 0, 0, 0.03);
+  --bg-glass: rgba(255, 255, 255, 0.72);
+  --text: #000000;
+  --text-secondary: rgba(60, 60, 67, 0.6);
+  --text-tertiary: rgba(60, 60, 67, 0.3);
+  --border: rgba(0, 0, 0, 0.06);
+  --border-subtle: rgba(0, 0, 0, 0.04);
+  --border-strong: rgba(0, 0, 0, 0.12);
+  --separator: rgba(60, 60, 67, 0.29);
+  --tile-empty-border: rgba(0, 0, 0, 0.1);
+  --tile-absent-bg: rgba(0, 0, 0, 0.08);
+  --tile-absent-hover: rgba(0, 0, 0, 0.14);
   --tile-text: #ffffff;
-  --correct: #6aaa64;
-  --correct-hover: #5d975a;
-  --correct-text: #3d7a3a;       /* darker green text for readability on white */
-  --correct-soft: rgba(106, 170, 100, 0.18);
-  --present: #c9b458;
-  --present-hover: #b9a44d;
-  --word-text: #1a1a1b;
-  --toast-bg: #1a1a1b;
+  --correct: #34c759;
+  --correct-hover: #2db84e;
+  --correct-text: #248a3d;
+  --correct-soft: rgba(52, 199, 89, 0.12);
+  --present: #ff9500;
+  --present-hover: #e68600;
+  --present-text: #c77c00;
+  --word-text: #000000;
+  --toast-bg: rgba(0, 0, 0, 0.8);
   --toast-text: #ffffff;
-  --key-bg: #d3d6da;
-  --key-hover: #bcc0c5;
-  --key-text: #1a1a1b;
+  --key-bg: rgba(0, 0, 0, 0.06);
+  --key-hover: rgba(0, 0, 0, 0.12);
+  --key-text: #000000;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.12);
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
 }
 
 html {
@@ -74,16 +91,16 @@ html {
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: -apple-system, 'SF Pro Display', 'SF Pro Text', system-ui, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
-  transition: background 0.2s ease, color 0.2s ease;
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
 #root {
   width: 100%;
-  height: 100vh; /* definite height so nested flex lists can scroll internally */
+  height: 100vh;
   display: flex;
   flex-direction: column;
   overflow-x: hidden;

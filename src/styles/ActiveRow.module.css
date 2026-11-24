@@ -1,12 +1,12 @@
 .row {
   display: flex;
-  gap: 6px;
+  gap: 8px;
 }
 
 .hint {
-  margin-top: 8px;
-  font-size: 0.72rem;
-  color: var(--text-secondary);
-  letter-spacing: 0.02em;
+  margin-top: 10px;
+  font-size: 0.78rem;
+  color: var(--text-tertiary);
+  letter-spacing: -0.01em;
   min-height: 1.2em;
 }

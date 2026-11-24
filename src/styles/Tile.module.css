@@ -1,16 +1,17 @@
 .tile {
-  width: 54px;
-  height: 54px;
-  border: 2px solid var(--tile-empty-border);
+  width: 56px;
+  height: 56px;
+  border: 1.5px solid var(--tile-empty-border);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.4rem;
-  font-weight: 700;
-  font-family: 'Courier New', Courier, monospace;
-  letter-spacing: 0;
+  font-size: 1.3rem;
+  font-weight: 600;
+  font-family: -apple-system, 'SF Pro Display', system-ui, sans-serif;
+  letter-spacing: 0.02em;
   user-select: none;
-  transition: background 0.08s, border-color 0.08s;
+  border-radius: var(--radius-sm);
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
   flex-shrink: 0;
 }
 
@@ -20,24 +21,38 @@
 
 .absent {
   background: var(--tile-absent-bg);
-  border-color: var(--tile-absent-bg);
+  border-color: transparent;
   color: var(--tile-text);
   cursor: pointer;
 }
-.absent:hover { background: var(--tile-absent-hover); }
+.absent:hover {
+  background: var(--tile-absent-hover);
+  transform: scale(1.04);
+}
+.absent:active { transform: scale(0.96); }
 
 .present {
   background: var(--present);
-  border-color: var(--present);
+  border-color: transparent;
   color: var(--tile-text);
   cursor: pointer;
+  box-shadow: 0 2px 12px rgba(255, 159, 10, 0.3);
 }
-.present:hover { background: var(--present-hover); }
+.present:hover {
+  background: var(--present-hover);
+  transform: scale(1.04);
+}
+.present:active { transform: scale(0.96); }
 
 .correct {
   background: var(--correct);
-  border-color: var(--correct);
+  border-color: transparent;
   color: var(--tile-text);
   cursor: pointer;
+  box-shadow: 0 2px 12px rgba(52, 199, 89, 0.3);
 }
-.correct:hover { background: var(--correct-hover); }
+.correct:hover {
+  background: var(--correct-hover);
+  transform: scale(1.04);
+}
+.correct:active { transform: scale(0.96); }
